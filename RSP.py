@@ -11,7 +11,7 @@ def open_image():
         display_image(file_path)
 
 def display_image(file_path):
-    ### image file address should be English only
+    ### image file address should be English only ###
     global photo, displayed_path
     image = Image.open(file_path)
     photo = ImageTk.PhotoImage(image)
