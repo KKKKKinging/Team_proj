@@ -11,6 +11,7 @@ def open_image():
         display_image(file_path)
 
 def display_image(file_path):
+    ### image file address should be English only
     global photo, displayed_path
     image = Image.open(file_path)
     photo = ImageTk.PhotoImage(image)
@@ -36,7 +37,7 @@ def cvt_gray():
             cvt_image_label.config(image=converted_photo)
             cvt_image_label.image = converted_photo
         else:
-            print('Invalid Image')
+            print(f'Invalid Image: {displayed_path}')
 
 
 ### GUI design ###
