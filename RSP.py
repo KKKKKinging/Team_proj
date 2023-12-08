@@ -11,7 +11,6 @@ def open_image():
         display_image(file_path)
 
 def display_image(file_path):
-    ### image file address should be English only ###
     global photo, displayed_path
     image = Image.open(file_path)
     photo = ImageTk.PhotoImage(image)
@@ -37,8 +36,32 @@ def cvt_gray():
             cvt_image_label.config(image=converted_photo)
             cvt_image_label.image = converted_photo
         else:
-            print(f'Invalid Image: {displayed_path}')
+            print('Invalid Image')
 
+### cvt to contour ###
+def cvt_canny():
+    if displayed_path:
+        original_image = cv2.imread(displayed_path)
+
+        ### image successfully opened ###
+        if original_image is not None:
+            gray_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+            
+            # Canny edge detection
+            edges = cv2.Canny(gray_image, 50, 150)
+            contour_image = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+            
+            # OpenCV to PIL image
+            converted_image = Image.fromarray(contour_image)
+            
+            # PIL to Tkinter PhotoImage
+            converted_photo = ImageTk.PhotoImage(image=converted_image)
+            
+            # display converted image
+            cvt_image_label.config(image=converted_photo)
+            cvt_image_label.image = converted_photo
+        else:
+            print('Invalid Image')
 
 ### GUI design ###
 win = tk.Tk()
@@ -66,7 +89,7 @@ select_img.place(relx=0.5, rely=0, anchor=tk.N)
 change_img1 = tk.Button(win, text='Gray', command=cvt_gray)
 change_img1.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
-change_img2 = tk.Button(win, text='cvt') # modify, add command
+change_img2 = tk.Button(win, text='Contour', command=cvt_canny)
 change_img2.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 
 ### Execution ###
