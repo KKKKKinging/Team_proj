@@ -49,7 +49,6 @@ def apply_filter(filter_function):
             cvt_image_label.image = converted_photo
         else:
             print(f'Invalid Image: {displayed_path}')
-            print('Invalid Image')
 
 def cvt_gray(image):
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -80,6 +79,10 @@ def apply_blue_filter(image):
 def apply_blur(image):
     blurred_image = cv2.GaussianBlur(image, (15, 15), 0)
     return blurred_image
+
+def apply_invert(image):
+    inverted_image = cv2.bitwise_not(image)
+    return inverted_image
 
 ### GUI design ###
 win = tk.Tk()
@@ -122,6 +125,9 @@ apply_blue_filter_button.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
 apply_blur_button = tk.Button(win, text='Blur', command=lambda: apply_filter(apply_blur))
 apply_blur_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+
+apply_invert_button = tk.Button(win, text='Invert', command=lambda: apply_filter(apply_invert))
+apply_invert_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
 ### Execution ###
 win.mainloop()
