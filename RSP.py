@@ -30,7 +30,7 @@ class ImageFilterApp:
     def display_image(self):
         image = Image.open(self.file_path)
 
-        max_width = 400
+        max_width = 330
         max_height = 460
 
         # Resize the image if it exceeds the maximum size
@@ -50,7 +50,7 @@ class ImageFilterApp:
                 filtered_image = filter_function(original_image)
                 converted_image = Image.fromarray(cv2.cvtColor(filtered_image, cv2.COLOR_BGR2RGB))
 
-                max_width = 400
+                max_width = 330
                 max_height = 460
 
                 # Resize the converted image if it exceeds the maximum size
@@ -152,7 +152,7 @@ class ImageFilterApp:
         self.image_label.place(x=0, y=35)
 
         self.cvt_image_label = tk.Label(self.master)
-        self.cvt_image_label.place(x=480, y=35)
+        self.cvt_image_label.place(x=450, y=35)
 
         select_img = tk.Button(self.master, text='Select Image', command=self.open_image)
         select_img.place(relx=0.5, rely=0.1, anchor=tk.N)
