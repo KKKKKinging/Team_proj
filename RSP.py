@@ -20,12 +20,12 @@ class ImageFilterApp:
 
         self.create_widgets()
 
-### Load and display image on GUI ###
+    ### Load and display image on GUI ###
     def open_image(self):
         self.file_path = filedialog.askopenfilename(title="Open Image File", filetypes=[("Image files", "*.png *.jpg *.jpeg *.gif")])
         if self.file_path:
             self.display_image()
-    # The image file name and address should be in English
+        # The image file name and address should be in English
 
     def display_image(self):
         image = Image.open(self.file_path)
@@ -33,7 +33,7 @@ class ImageFilterApp:
         max_width = 400
         max_height = 460
 
-    # Resize the image if it exceeds the maximum size
+        # Resize the image if it exceeds the maximum size
         if image.width > max_width or image.height > max_height:
             image.thumbnail((max_width, max_height))
 
@@ -41,7 +41,7 @@ class ImageFilterApp:
             self.image_label.config(image=self.photo)
             self.displayed_path = self.file_path
 
-### Image Option ###
+    ### Image Option ###
     def apply_filter(self, filter_function):
         if self.displayed_path:
             original_image = cv2.imread(self.displayed_path)
@@ -49,11 +49,11 @@ class ImageFilterApp:
             if original_image is not None:
                 filtered_image = filter_function(original_image)
                 converted_image = Image.fromarray(cv2.cvtColor(filtered_image, cv2.COLOR_BGR2RGB))
-                
+
                 max_width = 400
                 max_height = 460
 
-            # Resize the converted image if it exceeds the maximum size
+                # Resize the converted image if it exceeds the maximum size
                 if converted_image.width > max_width or converted_image.height > max_height:
                     converted_image.thumbnail((max_width, max_height))
 
@@ -64,11 +64,11 @@ class ImageFilterApp:
             else:
                 print(f'Invalid Image: {self.displayed_path}')
 
-### Filters ###
+    ### Filters ###
     def apply_selected_filters(self):
         selected_filters = [self.cvt_gray, self.cvt_canny, self.apply_yellow_filter, self.apply_blue_filter, self.apply_blur, self.apply_invert, self.apply_red_filter]
         self.apply_filters(selected_filters)
-        
+
     def apply_filters(self, selected_filters):
         if self.displayed_path:
             original_image = cv2.imread(self.displayed_path)
@@ -91,7 +91,7 @@ class ImageFilterApp:
                 self.cvt_image_label.image = converted_photo
             else:
                 print(f'Invalid Image: {self.displayed_path}')
-            
+
     def cvt_gray(self, image):
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         return gray_image
@@ -139,8 +139,9 @@ class ImageFilterApp:
         selected_filter = random.choice(filter_functions)
         result_image = selected_filter(image)
         return result_image
-    
+
     ### Labels and GUI creation ###
+    def create_widgets(self):
         before_label = tk.Label(self.master, text='Before', font=('Helvetica', 16, 'bold'))
         before_label.place(x=150, y=0)
 
@@ -167,7 +168,7 @@ class ImageFilterApp:
 
         apply_random_filter_button = tk.Button(self.master, text='Random Filter', command=lambda: self.apply_filter(self.apply_random_filter))
         apply_random_filter_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
-        
+
 ### Execution ###
 if __name__ == "__main__":
     root = tk.Tk()
