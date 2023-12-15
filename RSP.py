@@ -3,10 +3,8 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
 
-### Load and display image on GUI ###
 def open_image():
     global file_path
-    # image file name and address should be in English
     file_path = filedialog.askopenfilename(title="Open Image File", filetypes=[("Image files", "*.png *.jpg *.jpeg *.gif")])
     if file_path:
         display_image(file_path)
@@ -14,34 +12,29 @@ def open_image():
 def display_image(file_path):
     global photo, displayed_path
     image = Image.open(file_path)
+    
+    # Get the screen size
+    screen_width = win.winfo_screenwidth()
+    screen_height = win.winfo_screenheight()
 
-    max_width = 400
-    max_height = 460
-
-    # Resize the image if it exceeds the maximum size
-    if image.width > max_width or image.height > max_height:
-        image.thumbnail((max_width, max_height))
+    # Resize the image according to the screen size
+    image.thumbnail((screen_width, screen_height))
 
     photo = ImageTk.PhotoImage(image)
     image_label.config(image=photo)
     displayed_path = file_path
 
-### Image Option ###
 def apply_filter(filter_function):
     if displayed_path:
         original_image = cv2.imread(displayed_path)
 
-        if original_image is not None: 
+        if original_image is not None:
             filtered_image = filter_function(original_image)
 
             converted_image = Image.fromarray(cv2.cvtColor(filtered_image, cv2.COLOR_BGR2RGB))
 
-            max_width = 400
-            max_height = 460
-
-            # Resize the converted image if it exceeds the maximum size
-            if converted_image.width > max_width or converted_image.height > max_height:
-                converted_image.thumbnail((max_width, max_height))
+            # Resize the converted image according to the screen size
+            converted_image.thumbnail((screen_width, screen_height))
 
             converted_photo = ImageTk.PhotoImage(image=converted_image)
 
@@ -50,16 +43,19 @@ def apply_filter(filter_function):
         else:
             print(f'Invalid Image: {displayed_path}')
 
+# Function to apply gray filter
 def cvt_gray(image):
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return gray_image
 
+# Function to apply canny filter
 def cvt_canny(image):
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray_image, 50, 150)
     contour_image = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
     return contour_image
 
+# Function to apply yellow filter
 def apply_yellow_filter(image):
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower_yellow = (20, 100, 100)
@@ -68,6 +64,7 @@ def apply_yellow_filter(image):
     yellow_filtered_image = cv2.bitwise_and(image, image, mask=yellow_mask)
     return yellow_filtered_image
 
+# Function to apply blue filter
 def apply_blue_filter(image):
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     lower_blue = (110, 50, 50)
@@ -76,38 +73,55 @@ def apply_blue_filter(image):
     blue_filtered_image = cv2.bitwise_and(image, image, mask=blue_mask)
     return blue_filtered_image
 
+# Function to apply blur filter
 def apply_blur(image):
     blurred_image = cv2.GaussianBlur(image, (15, 15), 0)
     return blurred_image
 
+# Function to apply invert filter
 def apply_invert(image):
     inverted_image = cv2.bitwise_not(image)
     return inverted_image
 
-### GUI design ###
+# Tkinter window
 win = tk.Tk()
 win.title('Image Film')
-win.geometry('800x550+100+100')
-win.resizable(False, False)
 
-### Labels ###
+# Get the initial screen size
+screen_width = win.winfo_screenwidth()
+screen_height = win.winfo_screenheight()
+
+win.geometry(f"{screen_width}x{screen_height}+100+100")
+
+# Set variables for label coordinates
+image_label_x = 0
+image_label_y = 35
+
+cvt_image_label_x = 480
+cvt_image_label_y = 35
+
+before_label_x = int(screen_width * 0.2)
+before_label_y = int(screen_height * 0.05)
+
+after_label_x = int(screen_width * 0.75)
+after_label_y = int(screen_height * 0.05)
+
+# Labels using variables
 before_label = tk.Label(win, text='Before', font=('Helvetica', 16, 'bold'))
-before_label.place(x=150, y=0)
+before_label.place(x=before_label_x, y=before_label_y)
 
 after_label = tk.Label(win, text='After', font=('Helvetica', 16, 'bold'))
-after_label.place(x=600, y=0)
+after_label.place(x=after_label_x, y=after_label_y)
 
 image_label = tk.Label(win)
-image_label.place(x=0, y=35)
+image_label.place(x=image_label_x, y=image_label_y)
 
-cvt_image_label = tk.Label(win) # for converted image display
-cvt_image_label.place(x=480, y=35)
+cvt_image_label = tk.Label(win)
+cvt_image_label.place(x=cvt_image_label_x, y=cvt_image_label_y)
 
-### Text box ###
 convert_to_label = tk.Label(win, text='Image Convert to', font=('Helvetica', 12, 'bold'))
 convert_to_label.place(relx=0.5, rely=0.2, anchor=tk.N)
 
-### Buttons ###
 select_img = tk.Button(win, text='Select Image', command=open_image)
 select_img.place(relx=0.5, rely=0, anchor=tk.N)
 
@@ -129,5 +143,4 @@ apply_blur_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 apply_invert_button = tk.Button(win, text='Invert', command=lambda: apply_filter(apply_invert))
 apply_invert_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
-### Execution ###
 win.mainloop()
