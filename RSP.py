@@ -65,9 +65,6 @@ class ImageFilterApp:
                 print(f'Invalid Image: {self.displayed_path}')
 
     ### Filters ###
-    def apply_selected_filters(self):
-        selected_filters = [self.cvt_gray, self.cvt_canny, self.apply_yellow_filter, self.apply_blue_filter, self.apply_blur, self.apply_invert, self.apply_red_filter]
-        self.apply_filters(selected_filters)
 
     def apply_filters(self, selected_filters):
         if self.displayed_path:
@@ -163,8 +160,8 @@ class ImageFilterApp:
         apply_contour_filters_button = tk.Button(self.master, text='Contour', command=lambda: self.apply_filter(self.cvt_canny))
         apply_contour_filters_button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 
-        apply_all_filters_button = tk.Button(self.master, text='Apply All Filter', command=lambda: self.apply_selected_filters)
-        apply_all_filters_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+        apply_invert_filter_button = tk.Button(self.master, text='Invert Filter', command=lambda: self.apply_filter(self.apply_invert))
+        apply_invert_filter_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
         apply_red_filter_button = tk.Button(self.master, text='Red Filter', command=lambda: self.apply_filter(self.apply_red_filter))
         apply_red_filter_button.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
