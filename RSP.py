@@ -154,20 +154,29 @@ class ImageFilterApp:
         self.cvt_image_label = tk.Label(self.master)
         self.cvt_image_label.place(x=480, y=35)
 
-        apply_all_filters_button = tk.Button(self.master, text='Apply All Filters', command=self.apply_selected_filters)
-        apply_all_filters_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
+        select_img = tk.Button(self.master, text='Select Image', command=self.open_image)
+        select_img.place(relx=0.5, rely=0.1, anchor=tk.N)
+
+        apply_gray_filters_button = tk.Button(self.master, text='Gray', command=lambda: self.apply_filter(self.cvt_gray))
+        apply_gray_filters_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+
+        apply_contour_filters_button = tk.Button(self.master, text='Contour', command=lambda: self.apply_filter(self.cvt_canny))
+        apply_contour_filters_button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
+
+        apply_all_filters_button = tk.Button(self.master, text='Apply All Filter', command=lambda: self.apply_selected_filters)
+        apply_all_filters_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
         apply_red_filter_button = tk.Button(self.master, text='Red Filter', command=lambda: self.apply_filter(self.apply_red_filter))
-        apply_red_filter_button.place(relx=0.4, rely=0.75, anchor=tk.CENTER)
+        apply_red_filter_button.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
         apply_yellow_filter_button = tk.Button(self.master, text='Yellow Filter', command=lambda: self.apply_filter(self.apply_yellow_filter))
-        apply_yellow_filter_button.place(relx=0.5, rely=0.75, anchor=tk.CENTER)
+        apply_yellow_filter_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
         apply_blue_filter_button = tk.Button(self.master, text='Blue Filter', command=lambda: self.apply_filter(self.apply_blue_filter))
-        apply_blue_filter_button.place(relx=0.6, rely=0.75, anchor=tk.CENTER)
+        apply_blue_filter_button.place(relx=0.5, rely=0.8, anchor=tk.CENTER)
 
         apply_random_filter_button = tk.Button(self.master, text='Random Filter', command=lambda: self.apply_filter(self.apply_random_filter))
-        apply_random_filter_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+        apply_random_filter_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 ### Execution ###
 if __name__ == "__main__":
