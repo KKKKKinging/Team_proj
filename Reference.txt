@@ -5,3 +5,4 @@ filedialog 사용법: https://toylee.net/%ED%8C%8C%EC%9D%B4%EC%8D%AC-tkinter-%ED
 
 최민서:
 픽셀 색 반전 bitwise 연산 구현: https://hanstar4.tistory.com/20
+VS code를 사용해 github.com으로 push, pull, commit 등 git 관리하는 법: https://opentutorials.org/course/4987/31820 
